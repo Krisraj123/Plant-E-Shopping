@@ -263,10 +263,14 @@ const handlePlantsClick = (e) => {
   };
 
   const handleAddToCart = (product) => {
-    dispatch(addItem(product));
+    if (!addedToCart[product.name]) {
+        dispatch(addItem(product));
     setAddedToCart((prevState) => ({
         ...prevState,[product.name]:true,
-  }))
+      }))
+      console.log(addedToCart);
+    }
+
 
   }
     return (
@@ -304,7 +308,10 @@ const handlePlantsClick = (e) => {
                                 <div className="product-title">
                                     {plant.name}
                                 </div>
-                                <button className='product-button' onClick={()=> handleAddToCart(plant)}>ADD TO CART</button>
+                                <button className={`product-button ${addedToCart[plant.name] ? 'added-to-cart' : ''}`}
+                                onClick={()=> handleAddToCart(plant)}
+                                disabled = {addedToCart[plant.name]}
+                                >{addedToCart[plant.name] ? 'ADDED TO CART' : 'ADD TO CART'}</button>
                             </div>
                         ))}
                     </div>
